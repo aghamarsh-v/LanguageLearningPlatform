@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import './App.css';
+import './widgets/WordCard'
+import WordCard from "./widgets/WordCard";
 
 class App extends Component {
   render () {
     return (
       <div className="App">
-        <h1> Hello World ! </h1>
+        <WordCard />
+        <p id="test_state"></p>
       </div>
     )
   }
