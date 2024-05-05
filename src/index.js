@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import './output.css';
-import App from './App';
+import './css/output.css';
+import LoginRegistrationPage from './view/LoginRegister'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <LoginRegistrationPage />
   </React.StrictMode>
 );
