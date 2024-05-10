@@ -2,3 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .login-flex {
+        @apply flex min-h-full flex-1 flex-col justify-centre px-6 py-12 lg:px-8;
+    }
+
+    .link-primary {
+        @apply font-semibold text-indigo-700 hover:text-indigo-500;
+    }
+
+    .link-secondary {
+        @apply font-semibold leading-6 text-indigo-600 hover:text-indigo-500;
+    }
+
+    .text-sm-grey {
+        @apply text-sm mt-10 text-center text-gray-500;
+    }
+
+    .lang-grid {
+        @apply grid grid-cols-2 gap-10 m-auto justify-center mt-10 max-w-fit max-h-fit;
+    }
+
+    .sm-center {
+        @apply sm:w-full sm:mx-auto sm:max-w-sm justify-center;
+    }
+
+}
