@@ -6,10 +6,6 @@ import Heading from "../widgets/Heading";
 import EndPoints from "../constants/EndPoints";
 
 
-function langSelectionCallback(info) {
-    console.log(info);
-}
-
 function LangSelectionView() {
     const langCountryMap = {
         Spanish: 'ES',
@@ -22,11 +18,9 @@ function LangSelectionView() {
     const fetchSupportedLanguages = () => {
         return fetch(EndPoints.languageSelection, { mode: 'no-cors' })
             .then((res) => {
-                console.log(res);
                 return res.json();
             })
             .then((d) => {
-                console.log(d);
                 setLanguages(d);
             });
     };
@@ -34,6 +28,12 @@ function LangSelectionView() {
     useEffect(() => {
         fetchSupportedLanguages();
     }, []);
+
+    const [selectedLang, setSelectedLang] = useState();
+    function langSelectionCallback(info) {
+        console.log(info);
+        setSelectedLang(info);
+    }
 
     return (
         <div className=".sm-shadow-box">
@@ -47,6 +47,10 @@ function LangSelectionView() {
                         )
                     })
                 }
+            </div>
+
+            <div>
+                <p>{selectedLang ? (selectedLang + ' is the selected language') : ''}</p>
             </div>
         </div>
     )

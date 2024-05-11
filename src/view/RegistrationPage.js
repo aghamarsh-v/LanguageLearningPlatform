@@ -1,11 +1,58 @@
-import React from "react";
+import React, {useState, useRef} from "react";
+import { Link, useResolvedPath } from "react-router-dom";
+
 import Heading from "../widgets/Heading";
 import EditField from "../widgets/EditField";
 import EditFieldLabel from "../widgets/EditFieldLabel";
 import Button from "../widgets/Button";
-import { Link } from "react-router-dom";
 
 function RegistrationPage() {
+  const pwdRef = useRef(null);
+  const [emailClass, setEmailClass] = useState('');
+
+  const emailValidate = (evt) => {
+    if (evt.target.checkValidity()) {
+      setEmailClass("valid-input");
+    } else {
+      setEmailClass("invalid-input");
+    }
+  }
+
+  const [pwdClass, setPwdClass] = useState('');
+  const pwdValidate = (evt) => {
+    const pwd_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    if (evt.target.value.match(pwd_regex)) {
+      setPwdClass("valid-input");
+    } else {
+      setPwdClass("invalid-input");
+    }
+  }
+
+  const [rePwdClass, setRePwdClass] = useState('');
+  const retypePwdValidate = (evt) => {
+    if (pwdClass === "valid-input" && pwdRef.current.childNodes[0].value === evt.target.value) {
+      setRePwdClass("valid-input");
+    } else {
+      setRePwdClass("invalid-input");
+    }
+  }
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const submitForm = () => {
+    if (emailClass === "invalid-input") {
+      setErrorMessage("Entered Invalid email id");
+      return;
+    } else if (pwdClass === "invalid-input") {
+      setErrorMessage("Password must contain at least:\none small character,\none large character,\none digit,\nshould be of minimum 8 characters");
+      return;
+    } else if (rePwdClass === "invalid-input") {
+      setErrorMessage("Entered passwords are not the same");
+      return;
+    }
+
+    setErrorMessage("User Registered");
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-centre px-6 py-12 lg:px-8">
       <div className="sm-center">
@@ -16,26 +63,30 @@ function RegistrationPage() {
         <div className="space-y-4">
           <div>
             <EditFieldLabel type="email" textContent="Email address" />
-            <EditField type="email" />
+            <EditField type="email" changeCallBack={emailValidate} validateCss={emailClass} />
           </div>
 
           <div>
             <EditFieldLabel type="password" textContent="Create Password"/>
-            <EditField type="password" auto="current-password" />
+            <div ref={pwdRef}>
+            <EditField type="password" auto="current-password" changeCallBack={pwdValidate} validateCss={pwdClass}/>
+            </div>
           </div>
 
           <div>
             <EditFieldLabel type="password" textContent="Retype Password" />
-            <EditField type="password" id="password2" auto="current-password" />
+            <EditField type="password" id="password2" auto="current-password"  changeCallBack={retypePwdValidate} validateCss={rePwdClass}/>
           </div>
 
           <div>
-            <Button type="submit">
-              <Link to="/langSelection"> Sign Up </Link>
-            </Button>
+            <Button type="submit" textContent="Sign Up" callBack={submitForm}/>
           </div>
         </div>
       </div>
+
+      <span className="m-2 text-sm-red">
+            {errorMessage}
+      </span>
 
       <p className="text-sm-grey"> Existing User ? {' '}
         <Link to="/" className="link-secondary">Sign in</Link>
