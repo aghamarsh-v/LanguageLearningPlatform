@@ -26,5 +26,4 @@
     .sm-center {
         @apply sm:w-full sm:mx-auto sm:max-w-sm justify-center;
     }
-
 }

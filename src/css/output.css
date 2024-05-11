@@ -646,8 +646,8 @@ video {
   max-height: fit-content;
 }
 
-.min-h-9 {
-  min-height: 2.25rem;
+.min-h-16 {
+  min-height: 4rem;
 }
 
 .min-h-full {
@@ -658,8 +658,8 @@ video {
   width: 100%;
 }
 
-.min-w-9 {
-  min-width: 2.25rem;
+.min-w-16 {
+  min-width: 4rem;
 }
 
 .max-w-fit {

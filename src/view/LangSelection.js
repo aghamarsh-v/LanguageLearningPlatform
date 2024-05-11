@@ -1,23 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Outlet, Link, useAsyncError } from "react-router-dom";
+
 import LanguageButton from "../widgets/LanguageButton";
 import Heading from "../widgets/Heading";
+import EndPoints from "../constants/EndPoints";
 
-import { Outlet, Link } from "react-router-dom";
 
-function langSelectionCallback (info) {
+function langSelectionCallback(info) {
     console.log(info);
 }
 
-function LangSelectionView () {
+function LangSelectionView() {
+    const langCountryMap = {
+        Spanish: 'ES',
+        French: 'FR'
+    };
+
+    // fetch supported languages
+    const [languages, setLanguages] = useState([]);
+
+    const fetchSupportedLanguages = () => {
+        return fetch(EndPoints.languageSelection, { mode: 'no-cors' })
+            .then((res) => {
+                console.log(res);
+                return res.json();
+            })
+            .then((d) => {
+                console.log(d);
+                setLanguages(d);
+            });
+    };
+
+    useEffect(() => {
+        fetchSupportedLanguages();
+    }, []);
+
     return (
         <div className=".sm-shadow-box">
-            <Heading textContent="Select Language"/>
+            <Heading textContent="Select Language" />
 
             <div className="lang-grid" >
-            <LanguageButton country="ES" langName="Spanish" cb={langSelectionCallback}/>
-            <LanguageButton country="FR" langName="French" cb={langSelectionCallback}/>
-            <LanguageButton country="IN" langName="Hindi" cb={langSelectionCallback}/>
-            <LanguageButton country="LK" langName="Simhala" cb={langSelectionCallback}/>
+                {
+                    languages.map((lang, index) => {
+                        return (
+                            <LanguageButton key ={index} country={langCountryMap[lang]} langName={lang} cb={langSelectionCallback} />
+                        )
+                    })
+                }
             </div>
         </div>
     )
