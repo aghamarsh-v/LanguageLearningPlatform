@@ -1,3 +1,5 @@
 export default {
-    languageSelection: '/languages'
+    languageSelection: '/languages',
+    login: '/authenticateUsers',
+    register: '/registerUser'
 }

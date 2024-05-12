@@ -1,16 +1,18 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
+import {Navigate , Link } from "react-router-dom";
+
 import EditField from "../widgets/EditField";
 import EditFieldLabel from "../widgets/EditFieldLabel";
 import Button from "../widgets/Button";
 import Heading from "../widgets/Heading";
-
-import {Navigate , Link } from "react-router-dom";
-
-function randomlogin () {
-  return Math.floor(Math.random() * 2)
-}
+import LangSelectionView from "./LangSelection";
+import EndPoints from "../constants/EndPoints";
+import constants from '../constants/Global';
 
 function LoginPage () {
+  const emailRef = useRef(null);
+  const pwdRef = useRef(null);
+
   const [emailClass, setEmailClass] = useState('');
 
   const emailValidate = (evt) => {
@@ -30,19 +32,28 @@ function LoginPage () {
       return;
     }
 
-    if (randomlogin()) {
-      setErrorMessage("");
-      setUser("abcd");
-    } else {
-      setErrorMessage("Entered invalid email id or password");
-      setUser("");
-    }
-  };
+    const userInfo = btoa(emailRef.current.childNodes[0].value+':'+pwdRef.current.childNodes[0].value);
+    fetch(EndPoints.login, {headers: {auth: constants.authKey}, body: {userAuth: userInfo}})
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        if (response.status) {
+          setErrorMessage("");
+          setUser(response.userProfile);
+        } else {
+          setErrorMessage("Entered invalid email id or password");
+          setUser("");
+        }
+      });
+  }
 
   return (
     <>
-      {user && <Navigate to="/langSelection" replace={true} />}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      {user && !user.selectedLanguage && <LangSelectionView userProfile={user} />}
+      {user && user.selectedLanguage && <Navigate to="/Dashboard" userProfile={user} />}
+      { !user &&
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
         <div className="sm-center">
           <Heading textContent="Sign in to your account" />
         </div>
@@ -51,7 +62,9 @@ function LoginPage () {
           <div className="space-y-4">
             <div>
               <EditFieldLabel type="email" textContent="Email address"/>
-              <EditField type="email" changeCallBack={emailValidate} validateCss={emailClass}/>
+              <div ref={emailRef}>
+                <EditField type="email" changeCallBack={emailValidate} validateCss={emailClass}/>
+              </div>
             </div>
 
             <div>
@@ -65,7 +78,9 @@ function LoginPage () {
                 </div>
               </div>
 
-              <EditField type="password" auto="current-password" />
+              <div ref={pwdRef}>
+                <EditField type="password" auto="current-password" />
+              </div>
             </div>
 
             <div>
@@ -84,7 +99,8 @@ function LoginPage () {
             </Link>
           </p>
         </div>
-      </div>
+        </div>
+      }
     </>
   );
 }

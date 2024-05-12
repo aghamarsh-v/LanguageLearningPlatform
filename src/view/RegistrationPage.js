@@ -7,9 +7,11 @@ import EditFieldLabel from "../widgets/EditFieldLabel";
 import Button from "../widgets/Button";
 
 function RegistrationPage() {
+  const emailRef = useRef(null);
   const pwdRef = useRef(null);
-  const [emailClass, setEmailClass] = useState('');
+  const usernameRef = useRef(null);
 
+  const [emailClass, setEmailClass] = useState('');
   const emailValidate = (evt) => {
     if (evt.target.checkValidity()) {
       setEmailClass("valid-input");
@@ -50,11 +52,27 @@ function RegistrationPage() {
       return;
     }
 
+    const userInfo = btoa(emailRef.current.childNodes[0].value+':'+pwdRef.current.childNodes[0].value);
+    const username = usernameRef.current.childNodes[0].value;
+    fetch(EndPoints.register, {method: 'POST', headers: {auth: constants.authKey}, body: {userAuth: userInfo, username}})
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        if (response.status) {
+          setErrorMessage("");
+          setUser(username);
+        } else {
+          setErrorMessage("Entered invalid email id or password");
+          setUser("");
+        }
+      });
+
     setErrorMessage("User Registered");
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-centre px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-centre px-6 py-6 lg:px-8">
       <div className="sm-center">
         <Heading textContent="Create an account" />
       </div>
@@ -63,7 +81,16 @@ function RegistrationPage() {
         <div className="space-y-4">
           <div>
             <EditFieldLabel type="email" textContent="Email address" />
-            <EditField type="email" changeCallBack={emailValidate} validateCss={emailClass} />
+            <div ref={emailRef}>
+              <EditField type="email" changeCallBack={emailValidate} validateCss={emailClass} />
+            </div>
+          </div>
+
+          <div>
+            <EditFieldLabel textContent="Username" />
+            <div ref={usernameRef}>
+              <EditField />
+            </div>
           </div>
 
           <div>

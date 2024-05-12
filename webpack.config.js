@@ -15,6 +15,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"]
+            },
+            {
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                use: 'file-loader?name=./images/[name].[ext]'
             }
         ]
     },
