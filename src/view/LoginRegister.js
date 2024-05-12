@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RegistrationPage from './RegistrationPage'
 import LoginPage from './LoginPage'
 import LangSelectionView from "./LangSelection";
-import logo from '../images/logo.png';
+import logo from '../assets/logo.png';
 
 function LoginRegistrationPage () {
     return (

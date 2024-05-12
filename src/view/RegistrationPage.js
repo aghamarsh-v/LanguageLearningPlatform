@@ -115,7 +115,7 @@ function RegistrationPage() {
             {errorMessage}
       </span>
 
-      <p className="text-sm-grey"> Existing User ? {' '}
+      <p className="text-sm"> Existing User ? {' '}
         <Link to="/" className="link-secondary">Sign in</Link>
       </p>
     </div>

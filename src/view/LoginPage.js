@@ -92,7 +92,7 @@ function LoginPage () {
             {errorMessage}
           </span>
 
-          <p className="text-sm-grey">
+          <p className="text-sm">
             Not a member ? {' '}
             <Link to="/register" className="link-secondary">
               Register here
