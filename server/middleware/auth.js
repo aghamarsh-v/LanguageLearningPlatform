@@ -29,7 +29,7 @@ exports.userAuth = (req, res, next) => {
         if (err) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
-          if (!decodedToken.username || decodedToken.role !== "BasicUser") {
+          if (decodedToken.username !== req.body.username || decodedToken.role !== "Basic") {
             return res.status(401).json({ message: "Not authorized" })
           } else {
             next()

@@ -115,19 +115,34 @@ exports.login = async (req, res, next) => {
 }
 
 // API to update user data
-// exports.update = async (req, res, next) => {
-//     const { username, id } = req.body
-//     // Verifying if role and id is presnt
-//     if (role && id) {
-//         // Verifying if the value of role is admin
-//         if (role === "admin") {
-//         await User.findById(id)
-//         } else {
-//         res.status(400).json({
-//             message: "Role is not admin",
-//         })
-//         }
-//     } else {
-//         res.status(400).json({ message: "Role or Id not present" })
-//     }
-// }
+exports.updateLang = async (req, res, next) => {
+    const { username, role, selectedLanguage } = req.body;
+    // Verifying if role and id is presnt
+    if (role && username) {
+        // Verifying if the value of role is admin
+        try {
+            const user = await User.findOne({username});
+            if (!user) {
+                res.status(401).json({
+                    status: false,
+                    message: "user does not exist"
+                });
+            } else {
+                user.selectedLanguage = selectedLanguage;
+                user = await user.save();
+
+                res.status("201").json({
+                    status: true,
+                    message: "Lang Selection successful",
+                    username
+                });
+            }
+        } catch (err) {
+            res
+            .status(400)
+            .json({ status: false, message: "An error occurred", error: err.message });
+        }
+    } else {
+        res.status(400).json({ status: false, message: "Role or username not present" })
+    }
+}
