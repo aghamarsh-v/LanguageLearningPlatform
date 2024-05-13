@@ -63,8 +63,8 @@ function RegistrationPage() {
     const response = res.json();
     if (response.status) {
       console.log(response);
-      setUser(username);
       localStorage.setItem("username", username);
+      setUser(username);
     } else {
       setErrorMessage("Entered invalid email id or password");
       setUser();
