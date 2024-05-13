@@ -3,5 +3,6 @@ export default {
     login: '/api/auth/userLogin',
     register: '/api/auth/registerUser',
     selectLang: '/api/updateLang',
-    logout: '/logout'
+    logout: '/logout',
+    alphabets: '/alphabets'
 }

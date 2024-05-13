@@ -44,11 +44,10 @@ function LangSelectionView() {
             headers: { 'Content-type': 'application/json' }
         });
 
-        const data = res.json();
-        console.log(data);
-        if (data.status) {
-            console.log("selectedLang: " + lang);
-            localStorage.setItem("selectedLang", lang);
+        let data_new = await res.json();
+        console.log(data_new);
+        if (data_new.status) {
+            localStorage.setItem("selectedLang", info);
             setNavToDashboard(true);
         } else {
             console.log("selectedLang failed");
@@ -60,7 +59,7 @@ function LangSelectionView() {
     return (
         <>
             {navToLogin && <Navigate to="/" replace="true"/>}
-            {navToDashboard && <Navigate to="/home" userProfile={user} replace="true"/>}
+            {navToDashboard && <Navigate to="/home" replace="true"/>}
             
             <div className="p-6 max-w-sm mx-auto mt-32 bg-white rounded-xl shadow-lg items-center">
                 <div>

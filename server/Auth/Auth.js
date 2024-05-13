@@ -129,7 +129,7 @@ exports.updateLang = async (req, res, next) => {
                 });
             } else {
                 user.selectedLanguage = selectedLanguage;
-                user = await user.save();
+                await user.save();
 
                 res.status("201").json({
                     status: true,

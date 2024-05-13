@@ -75,7 +75,7 @@ function RegistrationPage() {
 
   return (
     <>
-    { user && <Navigate to="/" message="Please enter credentials to login" /> }
+    { user && <Navigate to="/login" message="Please enter credentials to login" /> }
     { !user && 
       <div className="p-6 max-w-sm mx-auto mt-32 bg-white rounded-xl shadow-lg items-center">
         <div>

@@ -59,7 +59,7 @@ function LoginPage () {
   return (
     <>
       {user && !user.selectedLanguage && <LangSelectionView userProfile={user} />}
-      {user && user.selectedLanguage && <Navigate to="/home" userProfile={user} replace="true"/>}
+      {user && user.selectedLanguage && <Navigate to="/home" state={{user}} replace="true"/>}
       { !user &&
         <div className="p-6 max-w-sm mx-auto mt-32 bg-white rounded-xl shadow-lg items-center">
           <div>

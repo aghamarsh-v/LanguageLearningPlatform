@@ -38,11 +38,11 @@ module.exports = {
         hot: true,
         proxy:[
             {
-                context: ['/languages'],
+                context: ['/languages', '/translate'],
                 target: 'http://localhost:8081'
             },
             {
-                context: ['/api'],
+                context: ['/api', '/logout'],
                 target: 'http://localhost:5000'
             }
         ]
