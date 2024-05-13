@@ -26,26 +26,34 @@ function LoginPage () {
   const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState();
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (emailClass === "invalid-input") {
       setErrorMessage("Entered Invalid email id");
       return;
     }
 
-    const userInfo = btoa(emailRef.current.childNodes[0].value+':'+pwdRef.current.childNodes[0].value);
-    fetch(EndPoints.login, {headers: {auth: constants.authKey}, body: {userAuth: userInfo}})
-      .then((res) => {
-        return res.json();
-      })
-      .then((response) => {
-        if (response.status) {
-          setErrorMessage("");
-          setUser(response.userProfile);
-        } else {
-          setErrorMessage("Entered invalid email id or password");
-          setUser("");
-        }
+    try {
+      const userInfo = btoa(emailRef.current.childNodes[0].value+':'+pwdRef.current.childNodes[0].value);
+      const res = await fetch(EndPoints.login, {
+        method: 'POST',
+        body: JSON.stringify({userInfo}),
+        headers: { 'Content-type': 'application/json' }
       });
+
+      const data = await res.json();
+      if (data.status) {
+        setErrorMessage("");
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("selectedLang", data.user.selectedLanguage);
+        setUser(data.user);
+      } else {
+        setErrorMessage("Entered invalid email id or password");
+        setUser("");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+     
   }
 
   return (

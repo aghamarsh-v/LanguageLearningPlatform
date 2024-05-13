@@ -8,7 +8,7 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                exclude: /(node_modules|browser_components)/,
+                exclude: /(node_modules|browser_components|server})/,
                 loader: "babel-loader",
                 options: { presets: ["@babel/env"] }
             },
@@ -40,6 +40,10 @@ module.exports = {
             {
                 context: ['/languages'],
                 target: 'http://localhost:8081'
+            },
+            {
+                context: ['/api'],
+                target: 'http://localhost:5000'
             }
         ]
     },

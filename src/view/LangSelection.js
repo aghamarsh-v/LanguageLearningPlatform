@@ -12,7 +12,7 @@ function LangSelectionView() {
     const [languages, setLanguages] = useState([]);
 
     const fetchSupportedLanguages = () => {
-        return fetch(EndPoints.languageSelection, {headers:{auth:constants.authKey}})
+        return fetch(EndPoints.languageSelection, {headers:{Authorization:constants.authKey}})
             .then((res) => {
                 return res.json();
             })

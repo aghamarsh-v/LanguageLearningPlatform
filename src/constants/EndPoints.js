@@ -1,5 +1,5 @@
 export default {
     languageSelection: '/languages',
-    login: '/authenticateUsers',
-    register: '/registerUser'
+    login: '/api/auth/userLogin',
+    register: '/api/auth/registerUser'
 }

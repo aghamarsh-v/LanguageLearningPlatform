@@ -9,7 +9,7 @@ import LoginRegistrationPage from "./view/LoginRegister";
 function App() {
   const { token, setToken } = useToken();
   const dummy = wall;
-  if(false && !token) { // changeit - remove false
+  if(!token) { // changeit - remove false
     return <LoginRegistrationPage setToken={setToken} />
   }
   return (
